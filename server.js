@@ -117,7 +117,7 @@ function generateRandomData() {
     return coordinates.map((coord, index) => {
         const id = locations[index];
         const previous = previousData[id] || {
-            air_quality_index: getRandomInt(25, 300),
+            air_quality_index: getRandomInt(25, 200),
             pm10: getRandomInt(20, 80),
             pm2_5: getRandomInt(10, 50),
             o3: getRandomInt(30, 100),
@@ -134,7 +134,7 @@ function generateRandomData() {
             },
             properties: {
                 location: locations[index],
-                air_quality_index: interpolateValueInt(previous.air_quality_index, 10, 175),
+                air_quality_index: interpolateValueInt(previous.air_quality_index, 10, 200),
                 pm10: interpolateValueInt(previous.pm10, 20, 80),
                 pm2_5: interpolateValueInt(previous.pm2_5, 10, 50),
                 o3: interpolateValueInt(previous.o3, 30, 100),
