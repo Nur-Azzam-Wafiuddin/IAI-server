@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 app.use(cors());
 
-const PORT = process.env.PORT || 4000;
+const PORT = 4000;
 
 let previousData = {};
 
