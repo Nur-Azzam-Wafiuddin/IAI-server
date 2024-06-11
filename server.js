@@ -1,16 +1,14 @@
 const express = require('express');
-const http = require('http'); 
+const http = require('http');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
-    }
-  });
+
+app.use(cors())
 
 const PORT = process.env.PORT || 4000;
+
 
 // Initializing previous data
 let previousData = {};
@@ -109,10 +107,6 @@ function generateRandomData() {
         "Girisubo",
         "Purwodadi",
     ];
-    
-    
-    
-    
 
     return coordinates.map((coord, index) => {
         const id = locations[index];
@@ -158,24 +152,20 @@ function interpolateValueInt(prevValue, min, max) {
     return newValue;
 }
 
-io.on('connection', (socket) => {
-    console.log('A client connected');
-
-    const emitData = () => {
-        const data = {
-            type: "FeatureCollection",
-            features: generateRandomData()
-        };
-        socket.emit('geoinfo', data);
+// Endpoint to fetch data
+app.get('/geodata', (req, res) => {
+    const features = generateRandomData()
+    const data = {
+        type: "FeatureCollection",
+        features: features
     };
-
-    const dataInterval = setInterval(emitData, 2000);
-
-    socket.on('disconnect', () => {
-        console.log('A client disconnected');
-        clearInterval(dataInterval);
-    });
+    res.json(data);
 });
+
+// Generate and update data every 3 seconds
+setInterval(() => {
+    previousData = generateRandomData();
+}, 3000);
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
