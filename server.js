@@ -151,7 +151,7 @@ function generateRandomData() {
 }
 
 function interpolateValueInt(prevValue, min, max) {
-    const change = Math.floor((Math.random() - 0.5) * 5); // smaller change to smoothen the interpolation
+    const change = Math.floor((Math.random() - 0.5) * 2); 
     let newValue = prevValue + change;
     if (newValue < min) newValue = min;
     if (newValue > max) newValue = max;
